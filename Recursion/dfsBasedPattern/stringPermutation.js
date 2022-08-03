@@ -29,3 +29,5 @@ var permute = function (nums) {
   dfs(0, nums);
   return result;
 };
+
+console.log(permute([1, 2, 3]));
