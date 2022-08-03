@@ -3,6 +3,12 @@
 //space complexity = O(n2^n)
 
 const subsets = (nums) => {
+  /**
+   * this is for leetcode 90
+   * nums = nums.sort((a,b) => {
+        return a-b;
+    }) 
+    */
   //global result set
   const result = [];
 
@@ -26,5 +32,14 @@ const subsets = (nums) => {
   };
   dfs(0, nums, []);
   return result;
+  /**
+   * this is for leetcode 90
+   * const hash = {};
+  for (let ele of result) {
+    if (hash[ele]) continue;
+    hash[ele] = ele;
+  }
+  return Object.values(hash);
+   */
 };
-console.log(subsets([1, 2, 3]));
+console.log(subsets([1, 2, 2]));
