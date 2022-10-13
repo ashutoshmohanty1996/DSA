@@ -47,3 +47,5 @@ var nextPermutation = function (nums) {
   }
 };
 console.log(nextPermutation([3, 2, 1]));
+
+// 123 => 132
