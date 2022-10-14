@@ -10,58 +10,58 @@
 //recursive approach
 
 var findSteps = (n) => {
-    if (n < 0) return 0;
-    else if (n === 0) return 1;
-    else {
-        return findSteps(n - 1) + findSteps(n - 2) + findSteps(n - 3);
-        //if its anything other than 1,2 or 3 just replace those stpes in the above function in place of 1, 2 or 3
-    }
-}
+  if (n < 0) return 0;
+  else if (n === 0) return 1;
+  else {
+    return findSteps(n - 1) + findSteps(n - 2) + findSteps(n - 5);
+    //if its anything other than 1,2 or 3 just replace those stpes in the above function in place of 1, 2 or 3
+  }
+};
 
-console.log(findSteps(2));
+console.log(findSteps(11));
 
 //top down using memoization
 var dp = [];
 
 var findStepsTD = (n) => {
-    if (n < 0) return 0;
-    if (n === 0) {
-        dp[0] = 1;
-        return dp[0];
-    }
-    if (dp[n]) {
-        return dp[n];
-    }
-    else {
-        dp[n] = findStepsTD(n - 1) + findStepsTD(n - 2) + findStepsTD(n - 3);
-        return dp[n];
-        //if its anything other than 1,2 or 3 just replace those stpes in the above function in place of 1, 2 or 3
-    }
-}
+  if (n < 0) return 0;
+  if (n === 0) {
+    dp[0] = 1;
+    return dp[0];
+  }
+  if (dp[n]) {
+    return dp[n];
+  } else {
+    dp[n] = findStepsTD(n - 1) + findStepsTD(n - 2) + findStepsTD(n - 5);
+    return dp[n];
+    //if its anything other than 1,2 or 3 just replace those stpes in the above function in place of 1, 2 or 3
+  }
+};
 
-console.log(findStepsTD(2)); 
+console.log(findStepsTD(11));
 
 //bottom up approach
-var a = 1, b = 1, c = 2,steps;
+var a = 1,
+  b = 1,
+  c = 2,
+  steps;
 
 var findStepsBU = (n) => {
-    if (n < 0) return 0;
-    if (n == 0 || n == 1) {
-        steps = a = b = n;
-        return steps;
+  if (n < 0) return 0;
+  if (n == 0 || n == 1) {
+    steps = a = b = n;
+    return steps;
+  } else if (n == 2) {
+    steps = c = 2;
+    return steps;
+  } else {
+    for (var i = 3; i <= n; i++) {
+      steps = a + b + c;
+      a = b;
+      b = c;
+      c = steps;
     }
-    else if (n == 2) {
-        steps = c = 2;
-        return steps;
-    }
-    else {
-        for (var i = 3; i <= n; i++) {
-            steps = a + b + c;
-            a = b;
-            b = c;
-            c = steps;
-        }
-        return steps;
-    }
-}
-console.log(findStepsBU(3)); 
+    return steps;
+  }
+};
+console.log(findStepsBU(3));
