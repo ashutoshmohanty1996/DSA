@@ -1,53 +1,58 @@
 //0-1 knapsack problem
-
-//@ recursive approach
-
-var recursive = (w, p, n, c) => {
-    if (n === 0 || c === 0) return 0;
-    var include = 0;
-    var exclude = 0;
-
-    //when you include current item
-    if (w[n - 1] <= c) {
-        include = p[n - 1] + recursive(w, p, n - 1, c - w[n - 1]);
-        //console.log(include);
-    }
-    //excluding the current item
-    exclude = 0 + recursive(w, p, n - 1, c);
-    //console.log(exclude);
-    return Math.max(include, exclude);
-}
-
 var weights = [2, 2, 3, 1];
 var prices = [5, 20, 20, 10];
 var items = 4;
 var capacity = 5;
 
-console.log(recursive(weights, prices, items, capacity));
+//recursive approach
+const knapSack = (weights, prices, items, capacity) => {
+  return solve(weights, prices, items - 1, capacity);
+};
 
+const solve = (weights, prices, items, capacity) => {
+  //if capacity or the items is 0 then return 0
+  if (capacity <= 0 || items <= 0) return 0;
 
+  let include = 0;
+  let exclude = 0;
 
+  if (weights[items] <= capacity) {
+    include =
+      prices[items] +
+      solve(weights, prices, items - 1, capacity - weights[items]);
+  }
+  exclude = solve(weights, prices, items - 1, capacity);
+  return Math.max(include, exclude);
+};
 
+console.log(knapSack(weights, prices, items, capacity));
 
+//using recursion and memoisation
+const knapSack2 = (weights, prices, items, capacity) => {
+  //initialize a DP 2D
 
-//using DP-----TopDown and memoization
+  const dp = new Array(items).fill(new Array(capacity + 1).fill(-1));
+  return solve(weights, prices, items - 1, capacity, dp);
+};
 
-var topDown = (w, p, n, c) => {
-    if (n === 0 || c === 0) return 0;
-    var include = [];
-    var exclude = [];
+const solveMem = (weights, prices, items, capacity, dp) => {
+  //if capacity or the items is 0 then return 0
+  if (capacity <= 0 || items <= 0) return 0;
 
-    //when you include current item
-    if (w[n - 1] <= c) {
-        include[n-1] = p[n - 1] + recursive(w, p, n - 1, c - w[n - 1]);
-        console.log(...include);
-    }
-    //excluding the current item
-    exclude[n-1] = 0 + recursive(w, p, n - 1, c);
-    console.log(...exclude);
-    return Math.max(...include, ...exclude);
-}
+  let include = 0;
+  let exclude = 0;
+  if (dp[items][capacity] != -1) {
+    return dp[items][capacity];
+  }
 
-console.log(topDown(weights, prices, items, capacity));
+  if (weights[items] <= capacity) {
+    include =
+      prices[items] +
+      solveMem(weights, prices, items - 1, capacity - weights[items], dp);
+  }
+  exclude = solveMem(weights, prices, items - 1, capacity, dp);
+  dp[items][capacity] = Math.max(include, exclude);
+  return dp[items][capacity];
+};
 
-
+console.log(knapSack2(weights, prices, items, capacity));
